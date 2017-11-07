@@ -1,15 +1,103 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <!-- Required meta tags -->
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-    <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css" integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M" crossorigin="anonymous">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-  </head>
-  <body>
-  	<h1>Firebase Train HW</h1>
-  </body>
+<head>
+  <meta charset="UTF-8">
+  <title>Train Schedules</title>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootswatch/3.3.7/superhero/bootstrap.min.css">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">  
+</head>
+
+<body>
+
+  <div class="container">
+
+    <!-- Jumbotron for Title -->
+    <div class="jumbotron">
+      <h1 class="text-center"><strong><i class="fa fa-subway"></i> Train Times</strong></h1>
+      <h2 class="text-center" id="main-clock"></h2>
+    </div>
+
+    <div class="row">
+      <div class="col-sm-12">
+        <br>
+
+        <div class="panel panel-primary">
+
+          <div class="panel-heading">
+            <h3 class="panel-title"><strong><i class="fa fa-subway"></i> - Trains</strong></h3>
+          </div>
+          <table class="table">
+              <thead>
+                <tr>
+                  <th>#</th>
+                  <th>Train</th>
+                  <th>Destination</th>
+                  <th>Arival Time</th>
+                  <th>Time Remaining</th>
+                </tr>
+              </thead>
+
+              <tbody id="train-data">
+                
+              </tbody>
+
+            </table>
+        </div>
+      </div>
+    </div>
+
+     <div class="row">
+      <div class="col-sm-12">
+        <br>
+        
+        <div class="panel panel-primary">
+          <div class="panel-heading">
+            <h3 class="panel-title"><strong><i class="fa fa-subway"></i> - Add a Train</strong></h3>
+          </div>
+          <div class="panel-body">
+
+           
+            <form role="form">              
+              <div class="form-group">
+                <label for="search">Train Name:</label>
+                <input type="text" class="form-control" id="train-name">
+              </div>              
+              <div class="form-group">
+                <label for="pwd">Destination:</label>
+                <input type="text" class="form-control" id="train-destination">
+              </div>              
+              <div class="form-group">
+                <label for="start-year">First Arrival Time:</label>
+                <input type="text" class="form-control" id="first-train-time">
+              </div>              
+              <div class="form-group">
+                <label for="end-year">Frequency:</label>
+                <input type="text" class="form-control" id="train-frequency">
+              </div>
+              <button type="submit" class="btn btn-default" id="add-train"><i class="fa fa-database"></i> Add Train</button>
+            </form>
+
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-sm-12">        
+        <hr>
+        <h5 class="text-center"><small>Made by Matt McIntyre</small></h5>
+      </div>
+    </div>
+
+  </div>
+  
+  <script src="https://www.gstatic.com/firebasejs/4.6.1/firebase.js"></script>
+  <script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/moment@2.19.1/moment.js" integrity="sha256-1ni73t/Fu4WpdnQI5OzfL5KFTY8VmP6fntwKqxx9W8o=" crossorigin="anonymous"></script>
+  <script src="app.js"></script>
+
+
+</body>
+
 </html>
