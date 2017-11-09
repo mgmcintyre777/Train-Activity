@@ -8,23 +8,24 @@ const $tFreq = $("#train-frequency");
 const $tData = $("#train-data");
 const $clock = $("#main-clock");
 const yesterday = moment().subtract(1,'d').format("M/D/YYYY");
+const trainData = [];
 const db = initFirebase();
-
-var numTrains = 0;
-var startTimes = [];
-
-$addTrain.on("click", addTrain);
+const timeInterval = setInterval(updateTimes, 1000);
 $clock.html(moment().format("h:mm:ss a"));
 
-var timeInterval = setInterval(everySecond, 1000);
+function updateTimes(){
 
-function everySecond(){
 	$clock.html(moment().format("h:mm:ss a"));
-	startTimes.forEach(function(trainObj){
-		// let diffr = trainObj.st.diff(moment(), "seconds");
-		// let left = diffr % (trainObj.fq * 60);
-		// let arival = moment().add()
-		// console.log(trainObj.name, diffr, left)
+
+	trainData.forEach(function(trainObj){
+
+		var diffTime = moment().diff(trainObj.st, "seconds");
+		var tRemainder = diffTime % trainObj.fq;
+		var tsecondsTillTrain = moment.duration((trainObj.fq - tRemainder), "seconds");
+		var nextTrain = moment().add(tsecondsTillTrain, "seconds");
+		trainObj.$a.html(nextTrain.format("h:mm a"));
+		trainObj.$r.html(nextTrain.fromNow(true));
+
 	})
 }
 
@@ -33,18 +34,20 @@ db.ref("trains").on("child_added",
 	function(snapshot) {
 		
 		var $tr = $("<tr>");
-		var $td_num = $("<td>").html(++numTrains);
+		var $td_num = $("<td>").html(trainData.length + 1);
 		var $td_name = $("<td>").html(snapshot.val().name);
 		var $td_dest = $("<td>").html(snapshot.val().dest);
-		var $td_ariv = $("<td>").html("xxx");
-		var $td_time = $("<td>").html("xxx");
+		var $td_ariv = $("<td>");
+		var $td_time = $("<td>");
 
-		startTimes.push({
+		trainData.push({
 			$a: $td_ariv,
 			$r: $td_time,
-			st: moment(snapshot.val().start, "M/D/YYYY H:mm"),
-			fq: snapshot.val().freq
+			st: moment(yesterday + snapshot.val().start, "M/D/YYYY H:mm"),
+			fq: snapshot.val().freq * 60
 		});
+
+		updateTimes();
 
 		$tr.append($td_num);
 		$tr.append($td_name);
@@ -55,8 +58,6 @@ db.ref("trains").on("child_added",
 	
 	}
 );
-
-//testPush();
 
 function initFirebase(){
 
@@ -89,20 +90,29 @@ function addTrain(){
 	$tFreq.val("");
 }
 
-function testPush(){
-	db.ref("trains").remove();
+// testPush();
 
-	db.ref("trains").push({
-		name: "name1",
-		dest: "dest1",
-		start: yesterday + "8:30",
-		freq: "30"
-	});
+// function testPush(){
+// 	db.ref("trains").remove();
 
-	db.ref("trains").push({
-			name: "name2",
-			dest: "dest2",
-			start: yesterday + "14:30",
-			freq: "1"
-	});
-}
+// 	db.ref("trains").push({
+// 		name: "Super Fast",
+// 		dest: "Charlotte, NC",
+// 		start: "8:30",
+// 		freq: "2"
+// 	});
+
+// 	db.ref("trains").push({
+// 			name: "Orient Express",
+// 			dest: "Istanbul",
+// 			start: "14:00",
+// 			freq: "53"
+// 	});
+
+// 	db.ref("trains").push({
+// 			name: "Flying Scotsman",
+// 			dest: "London",
+// 			start: "2:00",
+// 			freq: "17"
+// 	});
+// }
